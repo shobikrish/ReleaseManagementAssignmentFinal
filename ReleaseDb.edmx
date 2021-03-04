@@ -1,0 +1,733 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="releasedbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AddEmployee">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="int" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+          <Property Name="EmpRole" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="developer">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="developer_id" Type="int" />
+          <Property Name="module_id" Type="int" />
+          <Property Name="d_status" Type="int" />
+          <Property Name="Sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeList">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeRole" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Paassword" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmpTeam">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="module_id" />
+          </Key>
+          <Property Name="module_id" Type="int" Nullable="false" />
+          <Property Name="expected_start_date" Type="date" />
+          <Property Name="expected_end_date" Type="date" />
+          <Property Name="actual_start_date" Type="date" />
+          <Property Name="actual_end_date" Type="date" />
+          <Property Name="pid" Type="int" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProId" />
+          </Key>
+          <Property Name="ProId" Type="int" Nullable="false" />
+          <Property Name="ProName" Type="varchar" MaxLength="50" />
+          <Property Name="Actual_End_Date" Type="date" />
+          <Property Name="Actual_Start_Date" Type="date" />
+          <Property Name="Expected_Start_Date" Type="date" />
+          <Property Name="Expected_End_Date" Type="date" />
+        </EntityType>
+        <EntityType Name="ProjectList">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="Sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pid" Type="int" />
+          <Property Name="Pname" Type="varchar" MaxLength="50" />
+          <Property Name="ProjManagerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="TeamLeadId" Type="int" Nullable="false" />
+          <Property Name="LeadName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tester">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="tester_id" Type="int" />
+          <Property Name="module_id" Type="int" />
+          <Property Name="r_status" Type="int" />
+          <Property Name="Sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__developer__devel__5812160E">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="0..1" />
+          <End Role="developer" Type="Self.developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="developer">
+              <PropertyRef Name="developer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__developer__modul__59063A47">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="developer" Type="Self.developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="developer">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Modules__pid__5629CD9C">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Modules" Type="Self.Modules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProId" />
+            </Principal>
+            <Dependent Role="Modules">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectLi__ProjM__4F7CD00D">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="0..1" />
+          <End Role="ProjectList" Type="Self.ProjectList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ProjectList">
+              <PropertyRef Name="ProjManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectList__Pid__4E88ABD4">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="ProjectList" Type="Self.ProjectList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProId" />
+            </Principal>
+            <Dependent Role="ProjectList">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tester__module_i__5CD6CB2B">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="0..1" />
+          <End Role="tester" Type="Self.tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="tester">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tester__tester_i__5BE2A6F2">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="0..1" />
+          <End Role="tester" Type="Self.tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tester">
+              <PropertyRef Name="tester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpTeam_EmployeeList">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="1" />
+          <End Role="EmpTeam" Type="Self.EmpTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmpTeam">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpTeam_Teams">
+          <End Role="Teams" Type="Self.Teams" Multiplicity="1" />
+          <End Role="EmpTeam" Type="Self.EmpTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="EmpTeam">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_EmployeeList">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="TeamLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="proc_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="un" Type="int" Mode="In" />
+          <Parameter Name="pass" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="S_AddEmployee_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Eid" Type="int" Mode="In" />
+          <Parameter Name="Ename" Type="varchar" Mode="In" />
+          <Parameter Name="Erole" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="S_AddTeamLeadtoProject_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Pid" Type="int" Mode="In" />
+          <Parameter Name="Pname" Type="varchar" Mode="In" />
+          <Parameter Name="leadid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="S_InsertIntoProject_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Pid" Type="int" Mode="In" />
+          <Parameter Name="Pname" Type="varchar" Mode="In" />
+          <Parameter Name="ExStDate" Type="date" Mode="In" />
+          <Parameter Name="ExEnDate" Type="date" Mode="In" />
+          <Parameter Name="AcStDate" Type="date" Mode="In" />
+          <Parameter Name="AcEnDate" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="releasedbModelStoreContainer">
+          <EntitySet Name="AddEmployee" EntityType="Self.AddEmployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="developer" EntityType="Self.developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeList" EntityType="Self.EmployeeList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpTeam" EntityType="Self.EmpTeam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectList" EntityType="Self.ProjectList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tester" EntityType="Self.tester" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__developer__devel__5812160E" Association="Self.FK__developer__devel__5812160E">
+            <End Role="EmployeeList" EntitySet="EmployeeList" />
+            <End Role="developer" EntitySet="developer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__developer__modul__59063A47" Association="Self.FK__developer__modul__59063A47">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="developer" EntitySet="developer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Modules__pid__5629CD9C" Association="Self.FK__Modules__pid__5629CD9C">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Modules" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectLi__ProjM__4F7CD00D" Association="Self.FK__ProjectLi__ProjM__4F7CD00D">
+            <End Role="EmployeeList" EntitySet="EmployeeList" />
+            <End Role="ProjectList" EntitySet="ProjectList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectList__Pid__4E88ABD4" Association="Self.FK__ProjectList__Pid__4E88ABD4">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectList" EntitySet="ProjectList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tester__module_i__5CD6CB2B" Association="Self.FK__tester__module_i__5CD6CB2B">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="tester" EntitySet="tester" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tester__tester_i__5BE2A6F2" Association="Self.FK__tester__tester_i__5BE2A6F2">
+            <End Role="EmployeeList" EntitySet="EmployeeList" />
+            <End Role="tester" EntitySet="tester" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpTeam_EmployeeList" Association="Self.FK_EmpTeam_EmployeeList">
+            <End Role="EmployeeList" EntitySet="EmployeeList" />
+            <End Role="EmpTeam" EntitySet="EmpTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpTeam_Teams" Association="Self.FK_EmpTeam_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="EmpTeam" EntitySet="EmpTeam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_EmployeeList" Association="Self.FK_Teams_EmployeeList">
+            <End Role="EmployeeList" EntitySet="EmployeeList" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="releasedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EmployeeList">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Paassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="EmpTeams" Relationship="Self.FK_EmpTeam_EmployeeList" FromRole="EmployeeList" ToRole="EmpTeam" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_EmployeeList" FromRole="EmployeeList" ToRole="Teams" />
+          <NavigationProperty Name="ProjectLists" Relationship="releasedbModel.FK__ProjectLi__ProjM__4F7CD00D" FromRole="EmployeeList" ToRole="ProjectList" />
+          <NavigationProperty Name="developers" Relationship="releasedbModel.FK__developer__devel__45F365D3" FromRole="EmployeeList" ToRole="developer" />
+          <NavigationProperty Name="testers" Relationship="releasedbModel.FK__tester__tester_i__49C3F6B7" FromRole="EmployeeList" ToRole="tester" />
+        </EntityType>
+        <EntityType Name="EmpTeam">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeList" Relationship="Self.FK_EmpTeam_EmployeeList" FromRole="EmpTeam" ToRole="EmployeeList" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_EmpTeam_Teams" FromRole="EmpTeam" ToRole="Teams" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="TeamLeadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeeList" Relationship="Self.FK_Teams_EmployeeList" FromRole="Teams" ToRole="EmployeeList" />
+          <NavigationProperty Name="EmpTeams" Relationship="Self.FK_EmpTeam_Teams" FromRole="Teams" ToRole="EmpTeam" />
+          <Property Name="LeadName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_EmpTeam_EmployeeList">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="1" />
+          <End Role="EmpTeam" Type="Self.EmpTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmpTeam">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_EmployeeList">
+          <End Role="EmployeeList" Type="Self.EmployeeList" Multiplicity="1" />
+          <End Role="Teams" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="TeamLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpTeam_Teams">
+          <End Role="Teams" Type="Self.Team" Multiplicity="1" />
+          <End Role="EmpTeam" Type="Self.EmpTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamId" />
+            </Principal>
+            <Dependent Role="EmpTeam">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="releasedbEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmployeeLists" EntityType="Self.EmployeeList" />
+          <EntitySet Name="EmpTeams" EntityType="Self.EmpTeam" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <AssociationSet Name="FK_EmpTeam_EmployeeList" Association="Self.FK_EmpTeam_EmployeeList">
+            <End Role="EmployeeList" EntitySet="EmployeeLists" />
+            <End Role="EmpTeam" EntitySet="EmpTeams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_EmployeeList" Association="Self.FK_Teams_EmployeeList">
+            <End Role="EmployeeList" EntitySet="EmployeeLists" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpTeam_Teams" Association="Self.FK_EmpTeam_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="EmpTeam" EntitySet="EmpTeams" />
+          </AssociationSet>
+          <FunctionImport Name="proc_CheckLogin" ReturnType="Collection(releasedbModel.proc_CheckLogin_Result)">
+            <Parameter Name="un" Mode="In" Type="Int32" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="S_InsertIntoProject_p">
+            <Parameter Name="Pid" Mode="In" Type="Int32" />
+            <Parameter Name="Pname" Mode="In" Type="String" />
+            <Parameter Name="ExStDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ExEnDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AcStDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AcEnDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="Project1" EntityType="releasedbModel.Project1" />
+          <FunctionImport Name="S_AddTeamLeadtoProject_p">
+            <Parameter Name="Pid" Mode="In" Type="Int32" />
+            <Parameter Name="Pname" Mode="In" Type="String" />
+            <Parameter Name="leadid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="ProjectLists" EntityType="releasedbModel.ProjectList" />
+          <AssociationSet Name="FK__ProjectLi__ProjM__4F7CD00D" Association="releasedbModel.FK__ProjectLi__ProjM__4F7CD00D">
+            <End Role="EmployeeList" EntitySet="EmployeeLists" />
+            <End Role="ProjectList" EntitySet="ProjectLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProjectList__Pid__4E88ABD4" Association="releasedbModel.FK__ProjectList__Pid__4E88ABD4">
+            <End Role="Project1" EntitySet="Project1" />
+            <End Role="ProjectList" EntitySet="ProjectLists" />
+          </AssociationSet>
+          <EntitySet Name="AddEmployees" EntityType="releasedbModel.AddEmployee" />
+          <FunctionImport Name="S_AddEmployee_p">
+            <Parameter Name="Eid" Mode="In" Type="Int32" />
+            <Parameter Name="Ename" Mode="In" Type="String" />
+            <Parameter Name="Erole" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="developers" EntityType="releasedbModel.developer" />
+          <EntitySet Name="Modules" EntityType="releasedbModel.Module" />
+          <EntitySet Name="testers" EntityType="releasedbModel.tester" />
+          <AssociationSet Name="FK__developer__devel__45F365D3" Association="releasedbModel.FK__developer__devel__45F365D3">
+            <End Role="EmployeeList" EntitySet="EmployeeLists" />
+            <End Role="developer" EntitySet="developers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__developer__modul__46E78A0C" Association="releasedbModel.FK__developer__modul__46E78A0C">
+            <End Role="Module" EntitySet="Modules" />
+            <End Role="developer" EntitySet="developers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tester__tester_i__49C3F6B7" Association="releasedbModel.FK__tester__tester_i__49C3F6B7">
+            <End Role="EmployeeList" EntitySet="EmployeeLists" />
+            <End Role="tester" EntitySet="testers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Modules__pid__440B1D61" Association="releasedbModel.FK__Modules__pid__440B1D61">
+            <End Role="Project1" EntitySet="Project1" />
+            <End Role="Module" EntitySet="Modules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tester__module_i__4AB81AF0" Association="releasedbModel.FK__tester__module_i__4AB81AF0">
+            <End Role="Module" EntitySet="Modules" />
+            <End Role="tester" EntitySet="testers" />
+          </AssociationSet>
+          <FunctionImport Name="S_InsertIntoModule_P">
+            <Parameter Name="mid" Mode="In" Type="Int32" />
+            <Parameter Name="ExStDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ExEdDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AcStDate" Mode="In" Type="DateTime" />
+            <Parameter Name="acEdDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_AssignModuleToDeveloper_P">
+            <Parameter Name="Empname" Mode="In" Type="String" />
+            <Parameter Name="modid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_AssignModuleToTester_P">
+            <Parameter Name="Empname" Mode="In" Type="String" />
+            <Parameter Name="modid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="proc_CheckLogin_Result">
+          <Property Type="Int32" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="EmployeeRole" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Project1">
+          <Key>
+            <PropertyRef Name="ProId" />
+          </Key>
+          <Property Name="ProId" Type="Int32" Nullable="false" />
+          <Property Name="ProName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectLists" Relationship="releasedbModel.FK__ProjectList__Pid__4E88ABD4" FromRole="Project1" ToRole="ProjectList" />
+          <NavigationProperty Name="Modules" Relationship="releasedbModel.FK__Modules__pid__440B1D61" FromRole="Project1" ToRole="Module" />
+          <Property Name="Actual_End_Date" Type="DateTime" Precision="0" />
+          <Property Name="Actual_Start_Date" Type="DateTime" Precision="0" />
+          <Property Name="Expected_Start_Date" Type="DateTime" Precision="0" />
+          <Property Name="Expected_End_Date" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="ProjectList">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="Sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pid" Type="Int32" />
+          <Property Name="Pname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProjManagerId" Type="Int32" />
+          <NavigationProperty Name="EmployeeList" Relationship="releasedbModel.FK__ProjectLi__ProjM__4F7CD00D" FromRole="ProjectList" ToRole="EmployeeList" />
+          <NavigationProperty Name="Project" Relationship="releasedbModel.FK__ProjectList__Pid__4E88ABD4" FromRole="ProjectList" ToRole="Project1" />
+        </EntityType>
+        <Association Name="FK__ProjectLi__ProjM__4F7CD00D">
+          <End Type="releasedbModel.EmployeeList" Role="EmployeeList" Multiplicity="0..1" />
+          <End Type="releasedbModel.ProjectList" Role="ProjectList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ProjectList">
+              <PropertyRef Name="ProjManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProjectList__Pid__4E88ABD4">
+          <End Type="releasedbModel.Project1" Role="Project1" Multiplicity="0..1" />
+          <End Type="releasedbModel.ProjectList" Role="ProjectList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project1">
+              <PropertyRef Name="ProId" />
+            </Principal>
+            <Dependent Role="ProjectList">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AddEmployee">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="Int32" Nullable="false" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmpRole" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="developer">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="developer_id" Type="Int32" />
+          <Property Name="module_id" Type="Int32" />
+          <Property Name="d_status" Type="Int32" />
+          <NavigationProperty Name="EmployeeList" Relationship="releasedbModel.FK__developer__devel__45F365D3" FromRole="developer" ToRole="EmployeeList" />
+          <NavigationProperty Name="Module" Relationship="releasedbModel.FK__developer__modul__46E78A0C" FromRole="developer" ToRole="Module" />
+          <Property Name="Sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="module_id" />
+          </Key>
+          <Property Name="module_id" Type="Int32" Nullable="false" />
+          <Property Name="expected_start_date" Type="DateTime" Precision="0" />
+          <Property Name="expected_end_date" Type="DateTime" Precision="0" />
+          <Property Name="actual_start_date" Type="DateTime" Precision="0" />
+          <Property Name="actual_end_date" Type="DateTime" Precision="0" />
+          <Property Name="pid" Type="Int32" />
+          <NavigationProperty Name="developers" Relationship="releasedbModel.FK__developer__modul__46E78A0C" FromRole="Module" ToRole="developer" />
+          <NavigationProperty Name="Project" Relationship="releasedbModel.FK__Modules__pid__440B1D61" FromRole="Module" ToRole="Project1" />
+          <NavigationProperty Name="testers" Relationship="releasedbModel.FK__tester__module_i__4AB81AF0" FromRole="Module" ToRole="tester" />
+        </EntityType>
+        <EntityType Name="tester">
+          <Key>
+            <PropertyRef Name="Sno" />
+          </Key>
+          <Property Name="tester_id" Type="Int32" />
+          <Property Name="module_id" Type="Int32" />
+          <Property Name="r_status" Type="Int32" />
+          <NavigationProperty Name="EmployeeList" Relationship="releasedbModel.FK__tester__tester_i__49C3F6B7" FromRole="tester" ToRole="EmployeeList" />
+          <NavigationProperty Name="Module" Relationship="releasedbModel.FK__tester__module_i__4AB81AF0" FromRole="tester" ToRole="Module" />
+          <Property Name="Sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="FK__developer__devel__45F365D3">
+          <End Type="releasedbModel.EmployeeList" Role="EmployeeList" Multiplicity="0..1" />
+          <End Type="releasedbModel.developer" Role="developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="developer">
+              <PropertyRef Name="developer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__developer__modul__46E78A0C">
+          <End Type="releasedbModel.Module" Role="Module" Multiplicity="0..1" />
+          <End Type="releasedbModel.developer" Role="developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="developer">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tester__tester_i__49C3F6B7">
+          <End Type="releasedbModel.EmployeeList" Role="EmployeeList" Multiplicity="0..1" />
+          <End Type="releasedbModel.tester" Role="tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeList">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="tester">
+              <PropertyRef Name="tester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Modules__pid__440B1D61">
+          <End Type="releasedbModel.Project1" Role="Project1" Multiplicity="0..1" />
+          <End Type="releasedbModel.Module" Role="Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project1">
+              <PropertyRef Name="ProId" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tester__module_i__4AB81AF0">
+          <End Type="releasedbModel.Module" Role="Module" Multiplicity="0..1" />
+          <End Type="releasedbModel.tester" Role="tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="module_id" />
+            </Principal>
+            <Dependent Role="tester">
+              <PropertyRef Name="module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="releasedbModelStoreContainer" CdmEntityContainer="releasedbEntities1">
+          <EntitySetMapping Name="EmployeeLists">
+            <EntityTypeMapping TypeName="releasedbModel.EmployeeList">
+              <MappingFragment StoreEntitySet="EmployeeList">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeRole" ColumnName="EmployeeRole" />
+                <ScalarProperty Name="Paassword" ColumnName="Paassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpTeams">
+            <EntityTypeMapping TypeName="releasedbModel.EmpTeam">
+              <MappingFragment StoreEntitySet="EmpTeam">
+                <ScalarProperty Name="sno" ColumnName="sno" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="releasedbModel.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="LeadName" ColumnName="LeadName" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TeamLeadId" ColumnName="TeamLeadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_CheckLogin" FunctionName="releasedbModel.Store.proc_CheckLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="releasedbModel.proc_CheckLogin_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeRole" ColumnName="EmployeeRole" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="S_InsertIntoProject_p" FunctionName="releasedbModel.Store.S_InsertIntoProject_p" />
+          <EntitySetMapping Name="Project1">
+            <EntityTypeMapping TypeName="releasedbModel.Project1">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Expected_End_Date" ColumnName="Expected_End_Date" />
+                <ScalarProperty Name="Expected_Start_Date" ColumnName="Expected_Start_Date" />
+                <ScalarProperty Name="Actual_Start_Date" ColumnName="Actual_Start_Date" />
+                <ScalarProperty Name="Actual_End_Date" ColumnName="Actual_End_Date" />
+                <ScalarProperty Name="ProName" ColumnName="ProName" />
+                <ScalarProperty Name="ProId" ColumnName="ProId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="S_AddTeamLeadtoProject_p" FunctionName="releasedbModel.Store.S_AddTeamLeadtoProject_p" />
+          <EntitySetMapping Name="ProjectLists">
+            <EntityTypeMapping TypeName="releasedbModel.ProjectList">
+              <MappingFragment StoreEntitySet="ProjectList">
+                <ScalarProperty Name="ProjManagerId" ColumnName="ProjManagerId" />
+                <ScalarProperty Name="Pname" ColumnName="Pname" />
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+                <ScalarProperty Name="Sno" ColumnName="Sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AddEmployees">
+            <EntityTypeMapping TypeName="releasedbModel.AddEmployee">
+              <MappingFragment StoreEntitySet="AddEmployee">
+                <ScalarProperty Name="EmpRole" ColumnName="EmpRole" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="S_AddEmployee_p" FunctionName="releasedbModel.Store.S_AddEmployee_p" />
+          <EntitySetMapping Name="developers">
+            <EntityTypeMapping TypeName="releasedbModel.developer">
+              <MappingFragment StoreEntitySet="developer">
+                <ScalarProperty Name="Sno" ColumnName="Sno" />
+                <ScalarProperty Name="d_status" ColumnName="d_status" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="developer_id" ColumnName="developer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modules">
+            <EntityTypeMapping TypeName="releasedbModel.Module">
+              <MappingFragment StoreEntitySet="Modules">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="actual_end_date" ColumnName="actual_end_date" />
+                <ScalarProperty Name="actual_start_date" ColumnName="actual_start_date" />
+                <ScalarProperty Name="expected_end_date" ColumnName="expected_end_date" />
+                <ScalarProperty Name="expected_start_date" ColumnName="expected_start_date" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="testers">
+            <EntityTypeMapping TypeName="releasedbModel.tester">
+              <MappingFragment StoreEntitySet="tester">
+                <ScalarProperty Name="Sno" ColumnName="Sno" />
+                <ScalarProperty Name="r_status" ColumnName="r_status" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="tester_id" ColumnName="tester_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
